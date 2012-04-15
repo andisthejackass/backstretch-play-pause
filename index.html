@@ -1,0 +1,78 @@
+<html>
+  <head>
+  <style type="text/css">
+      body { font-family: Helvetica, Arial, sans-serif; }
+
+    .container {
+	            width: 90%;
+	            margin: 20px auto;
+	            background-color: #FFF;
+	            padding: 20px;
+	        }
+    .slider 
+      a {  
+        background:url(pause.png) no-repeat 0 0;
+        display:block;
+        height:50px;
+        width:50px;
+        text-indent:-9999px;
+        }
+    .slider a.play{
+        background:url(play.png) no-repeat 0 0
+        }
+  </style>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script src="http://srobbin.github.com/backstretch/jquery.backstretch.min.js"></script>
+
+  </head>
+  <body>
+  <div class='slider'>
+    <a class="slideControl" href="#">pause</a>
+   </div>
+   <script>
+      var images = [
+      "http://dl.dropbox.com/u/2699809/IMG_7033.JPG"
+      , "http://i.imgur.com/SF45D.jpg"
+      ];
+
+      // A little script for preloading all of the images
+      // It"s not necessary, but generally a good idea
+      $(images).each(function(){
+		      $("<img/>")[0].src = this;
+		      });
+
+      // The index variable will keep track of which image is currently showing
+      var index = 0;
+
+      // Call backstretch for the first time,
+      // In this case, I"m settings speed of 500ms for a fadeIn effect between images.
+      $.backstretch(images[index], {speed: 500});
+
+      // Set an interval that increments the index and sets the new image
+      // Note: The fadeIn speed set above will be inherited
+      var slideshow = setInterval(function() {
+		      index = (index >= images.length - 1) ? 0 : index + 1;
+		      $.backstretch(images[index]);
+		      }, 3000);
+
+      $(".slideControl").click(function () {
+
+		      var link = $(this);
+		      if (link.hasClass('play')) {
+		      slideshow = setInterval(function() {
+			      index = (index >= images.length - 1) ? 0 : index + 1;
+			      $.backstretch(images[index]);
+			      }, 1000);
+		      link.removeClass('play');
+		      } else {
+		      clearInterval(slideshow);
+		      link.addClass('play');
+		      } 
+		      });
+   </script>
+  <div class="container">
+    <h1>Play/Pause :)</h1>
+  </div>
+  </body>
+</html>
+
